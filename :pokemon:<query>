@@ -1,0 +1,25 @@
+from flask import Flask
+import requests
+import json
+
+app = Flask(__name__)
+
+
+api_url = 'http://pokeapi.co/api/v2/'
+
+temp=("""
+<h1>The Pokemon with id ${id} is $(name)</h1>
+
+""")_
+
+@app.route('/')
+def homepage():
+    return """<h1>Pokemons!</h1>"""
+
+@app.route('/<some_poke_info>')
+def poke_info(some_poke_info):
+	r = requests.get('http://pokeapi.co/api/v2/',parms=some_poke_info)
+	if (type(some_poke_infor)==int):
+		return(temp.substitute(id=some_poke_info, name=r.text))
+	else:
+		return(temp.substitute(id=r.text,name=some_poke_info))
